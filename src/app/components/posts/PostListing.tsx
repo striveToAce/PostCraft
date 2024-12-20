@@ -10,7 +10,9 @@ export const PostListing: React.FC<{ posts: IPost[] }> = ({ posts }) => {
     <HeaderFooterLayout isAuthPage={true}>
       <div className="flex justify-center items-center">
         <Link href="/posts/add-update">
-          <div className="text-red-500 font-bold cursor-pointer text-2xl">Add Post</div>
+          <button className="p-2 text-red-500 font-bold cursor-pointer text-2xl bg-transparent border border-red-500 rounded-lg">
+            Add Post
+          </button>
         </Link>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
