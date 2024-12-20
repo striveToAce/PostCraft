@@ -1,14 +1,22 @@
 import Head from 'next/head';
-import PostCard from '../components/posts/PostCard';
+import Redis from 'ioredis';
 import PostListing from '../components/posts/PostListing';
 
+const redis = new Redis();
 
 const fetchPosts = async (): Promise<IPost[]> => {
+  const cacheKey = 'posts';
+  const cachedPosts = await redis.get(cacheKey);
+  if (cachedPosts) {
+    return JSON.parse(cachedPosts);
+  }
   const res = await fetch('https://jsonplaceholder.typicode.com/posts');
   if (!res.ok) {
     throw new Error('Failed to fetch posts');
   }
-  return res.json();
+  const posts = await res.json();
+  await redis.set(cacheKey, JSON.stringify(posts), 'EX', 120); // Cache for 2 minutes
+  return posts;
 };
 
 const PostsPage = async () => {
