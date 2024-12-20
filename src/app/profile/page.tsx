@@ -4,14 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/slices/userSlice';
 import HeaderFooterLayout from '../components/layout/HeaderFooterLayout';
-import type { Metadata } from 'next'
 import { useRouter } from 'next/navigation';
-
-export const metadata: Metadata = {
-  title: 'Profile - PostCraft',
-  description: 'Profile page',
-  keywords: 'PostCraft, profile, blog, articles',
-};
 
 const ProfilePage: React.FC = () => {
   const userName = useSelector((state: RootState) => state.user.name);
