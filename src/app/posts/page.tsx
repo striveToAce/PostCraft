@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import PostCard from '../components/posts/PostCard';
+import PostListing from '../components/posts/PostListing';
 
 
 const fetchPosts = async (): Promise<IPost[]> => {
@@ -23,18 +24,7 @@ const PostsPage = async () => {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="container mx-auto px-4">
-      <Head>
-        <title>My Blog</title>
-        <meta name="description" content="A blog built with Next.js" />
-      </Head>
-      <h1 className="text-4xl font-bold text-center my-8">Posts</h1>
-      <div className="flex flex-wrap justify-center">
-        {posts.map((post) => (
-          <PostCard key={post.id} id={post.id} title={post.title} body={post.body} />
-        ))}
-      </div>
-    </div>
+    <PostListing posts={posts} />
   );
 };
 

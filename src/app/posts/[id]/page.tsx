@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Head from 'next/head';
+import HeaderFooterLayout from '@/app/components/layout/HeaderFooterLayout';
 
 interface IPost {
   id: number;
@@ -24,6 +25,7 @@ const PostDetailsPage = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
+    <HeaderFooterLayout isAuthPage={true}>
     <div className="container mx-auto px-4 py-8">
       <Head>
         <title>{post.title} - My Blog</title>
@@ -34,6 +36,7 @@ const PostDetailsPage = async ({ params }: { params: { id: string } }) => {
         <p className="text-gray-800 text-lg leading-relaxed">{post.body}</p>
       </div>
     </div>
+    </HeaderFooterLayout>
   );
 };
 
