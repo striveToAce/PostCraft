@@ -4,10 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/slices/userSlice';
 import HeaderFooterLayout from '../components/layout/HeaderFooterLayout';
+import { useRouter } from 'next/navigation';
 
 const ProfilePage: React.FC = () => {
   const userName = useSelector((state: RootState) => state.user.name);
   const dispatch = useDispatch();
+  const router = useRouter()
 
   if (!userName) {
     return (
@@ -31,6 +33,14 @@ const ProfilePage: React.FC = () => {
             className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full shadow hover:bg-red-600 transition-colors duration-300"
           >
             Logout
+          </button>
+        </div>
+        <div className='flex justify-center'>
+          <button
+            onClick={() => router.push('/posts')}
+            className="bg-sky-500 text-white font-semibold py-2 px-4 rounded-full shadow hover:bg-sky-600 transition-colors duration-300"
+          >
+            View Posts
           </button>
         </div>
       </div>
