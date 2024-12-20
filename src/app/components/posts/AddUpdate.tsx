@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,34 +7,15 @@ import HeaderFooterLayout from '../layout/HeaderFooterLayout';
 
 interface PostFormProps {
   postId?: string; // Optional postId for editing
+  title?: string;
+  body?: string;
 }
 
-const PostFormPage: React.FC<PostFormProps> = ({ postId }) => {
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+const PostFormPage: React.FC<PostFormProps> = ({ postId, title: initialTitle, body: initialBody }) => {
+  const [title, setTitle] = useState(initialTitle || '');
+  const [body, setBody] = useState(initialBody || '');
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    if (postId) {
-      // Fetch the existing post data for editing
-      const fetchPost = async () => {
-        try {
-          const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
-          if (!response.ok) {
-            throw new Error('Failed to fetch post');
-          }
-          const post = await response.json();
-          setTitle(post.title);
-          setBody(post.body);
-        } catch (err: any) {
-          setError(err.message);
-        }
-      };
-
-      fetchPost();
-    }
-  }, [postId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,44 +25,53 @@ const PostFormPage: React.FC<PostFormProps> = ({ postId }) => {
       return;
     }
 
+    const method = postId ? 'PUT' : 'POST';
+    const url = postId
+      ? `https://jsonplaceholder.typicode.com/posts/${postId}`
+      : 'https://jsonplaceholder.typicode.com/posts';
+
     try {
-      const method = postId ? 'PUT' : 'POST';
-      const url = postId
-        ? `https://jsonplaceholder.typicode.com/posts/${postId}`
-        : 'https://jsonplaceholder.typicode.com/posts';
-
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-          id: postId ? parseInt(postId) : undefined, // Include id only for PUT
-          title,
-          body,
-          userId: 1, // Assuming a static userId for demonstration
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to ${postId ? 'update' : 'add'} post`);
-      }
-
-      const result = await response.json();
-      console.log(result); // Log the response for debugging
-
+      const result = await savePost(url, method);
       // Show success toast
       toast.success(`Post ${postId ? 'updated' : 'added'} successfully!`);
-
       // Redirect to the posts page after successful submission
-      setTimeout(() => {
-        router.push('/posts');
-      }, 500); // Delay to allow users to see the toast
+      redirectToPosts();
     } catch (err: any) {
-      setError(err.message);
-      // Show error toast
-      toast.error(err.message);
+      handleError(err);
     }
+  };
+
+  const savePost = async (url: string, method: string) => {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: JSON.stringify({
+        id: postId ? parseInt(postId) : undefined, // Include id only for PUT
+        title,
+        body,
+        userId: 1, // Assuming a static userId for demonstration
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to ${postId ? 'update' : 'add'} post`);
+    }
+
+    return await response.json();
+  };
+
+  const redirectToPosts = () => {
+    setTimeout(() => {
+      router.push('/posts');
+    }, 500); // Delay to allow users to see the toast
+  };
+
+  const handleError = (err: any) => {
+    setError(err.message);
+    // Show error toast
+    toast.error(err.message);
   };
 
   return (

@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { logout } from '@/store/slices/userSlice';
@@ -11,17 +11,11 @@ const ProfilePage: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  if (!userName) {
-    return (
-      <HeaderFooterLayout isAuthPage={false}>
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-          <h1 className="text-3xl font-bold text-gray-800">You are not logged in.</h1>
-          <p className="mt-4 text-gray-600">Please log in to view your profile information.</p>
-        </div>
-      </HeaderFooterLayout>
-    );
-  }
-
+  useEffect(()=>{
+    if(!userName){
+      router.push('/login')
+    }
+  },[userName])
   return (
     <HeaderFooterLayout isAuthPage={true}>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

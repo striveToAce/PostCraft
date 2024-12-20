@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import Head from 'next/head';
+import { unstable_cache } from 'next/cache';
 import HeaderFooterLayout from '@/app/components/layout/HeaderFooterLayout';
 import Link from 'next/link';
 
@@ -11,11 +12,19 @@ interface IPost {
 }
 
 const fetchPost = async (id: string): Promise<IPost | null> => {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-  if (!res.ok) {
-    return null;
-  }
-  return res.json();
+  const fetchAndCachePost = async () => {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
+    if (!res.ok) {
+      return null;
+    }
+    return await res.json();
+  };
+
+  const post = await unstable_cache(fetchAndCachePost, [`post-${id}`], {
+    revalidate: 30, // Cache for 30 sec
+  })();
+
+  return post;
 };
 
 const PostDetailsPage = async ({ params }: { params: { id: string } }) => {

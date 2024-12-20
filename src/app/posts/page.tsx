@@ -1,21 +1,20 @@
 import Head from 'next/head';
-import Redis from 'ioredis';
+import { unstable_cache } from 'next/cache';
 import PostListing from '../components/posts/PostListing';
-import HeaderFooterLayout from '../components/layout/HeaderFooterLayout';
 
 const fetchPosts = async (): Promise<IPost[]> => {
-  const cacheKey = 'posts';
-  const redis = new Redis();
-  const cachedPosts = await redis.get(cacheKey);
-  if (cachedPosts) {
-    return JSON.parse(cachedPosts);
-  }
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-  if (!res.ok) {
-    throw new Error('Failed to fetch posts');
-  }
-  const posts = await res.json();
-  await redis.set(cacheKey, JSON.stringify(posts), 'EX', 30); // Cache for 2 minutes
+  const fetchAndCachePosts = async () => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+    if (!res.ok) {
+      throw new Error('Failed to fetch posts');
+    }
+    return await res.json();
+  };
+
+  const posts = await unstable_cache(fetchAndCachePosts, ['posts'], {
+    revalidate: 30, // Cache for 30 sec
+  })();
+
   return posts;
 };
 
