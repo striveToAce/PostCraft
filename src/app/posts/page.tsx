@@ -2,10 +2,9 @@ import Head from 'next/head';
 import Redis from 'ioredis';
 import PostListing from '../components/posts/PostListing';
 
-const redis = new Redis();
-
 const fetchPosts = async (): Promise<IPost[]> => {
   const cacheKey = 'posts';
+  const redis = new Redis();
   const cachedPosts = await redis.get(cacheKey);
   if (cachedPosts) {
     return JSON.parse(cachedPosts);
@@ -25,14 +24,27 @@ const PostsPage = async () => {
 
   try {
     posts = await fetchPosts();
-  } catch (err:any) {
+  } catch (err: any) {
     error = err?.message;
   }
 
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <PostListing posts={posts} />
+    <>
+      <Head>
+        <title>Posts - PostCraft</title>
+        <meta name="description" content="Browse the latest posts on PostCraft, your go-to platform for insightful articles and updates." />
+        <meta name="keywords" content="PostCraft, posts, articles, updates, blog" />
+        <meta name="author" content="PostCraft Team" />
+        <meta property="og:title" content="Posts - PostCraft" />
+        <meta property="og:description" content="Browse the latest posts on PostCraft, your go-to platform for insightful articles and updates." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://yourdomain.com/posts" />
+        <meta property="og:image" content="https://yourdomain.com/images/posts-og-image.jpg" />
+      </Head>
+      <PostListing posts={posts} />
+    </>
   );
 };
 

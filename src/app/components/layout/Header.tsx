@@ -27,15 +27,15 @@ const Header: React.FC<HeaderProps> = ({
         <header className="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 shadow-md">
             <div className="container mx-auto flex justify-between items-center">
                 <Link className="text-white text-2xl font-bold" href="/">
-
+                    PostCraft
                 </Link>
                 <div>
                     {isLoggedIn ? (
-                        <div className="flex items-center space-x-4">
+                        <Link href={'/profile'} className="flex items-center space-x-4">
                             <div className="bg-white text-indigo-600 font-bold rounded-full w-10 h-10 flex items-center justify-center">
                                 {getInitials(userName || '')}
                             </div>
-                        </div>
+                        </Link>
                     ) : (
                         <Link className="bg-white text-indigo-600 font-semibold py-2 px-4 rounded-full shadow hover:bg-gray-100 transition-colors duration-300" href="/login">
 
