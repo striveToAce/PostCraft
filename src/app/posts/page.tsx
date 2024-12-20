@@ -41,8 +41,6 @@ const PostsPage = async () => {
         <meta property="og:title" content="Posts - PostCraft" />
         <meta property="og:description" content="Browse the latest posts on PostCraft, your go-to platform for insightful articles and updates." />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://yourdomain.com/posts" />
-        <meta property="og:image" content="https://yourdomain.com/images/posts-og-image.jpg" />
       </Head>
       <PostListing posts={posts} />
     </>
