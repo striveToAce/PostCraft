@@ -42,6 +42,7 @@ const PostFormPage: React.FC<PostFormProps> = ({ postId, title: initialTitle, bo
   };
 
   const savePost = async (url: string, method: string) => {
+    toast.loading('saving post...')
     const response = await fetch(url, {
       method,
       headers: {
@@ -55,9 +56,11 @@ const PostFormPage: React.FC<PostFormProps> = ({ postId, title: initialTitle, bo
       }),
     });
 
+
     if (!response.ok) {
       throw new Error(`Failed to ${postId ? 'update' : 'add'} post`);
     }
+    toast.dismiss()
 
     return await response.json();
   };
