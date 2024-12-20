@@ -1,6 +1,13 @@
 import Head from 'next/head';
 import { unstable_cache } from 'next/cache';
+import type { Metadata } from 'next'
 import PostListing from '../components/posts/PostListing';
+
+export const metadata: Metadata = {
+  title: 'Posts - PostCraft',
+  description: 'Explore the latest posts on PostCraft, your go-to platform for insightful articles and updates.',
+  keywords: 'PostCraft, blog, articles, updates, posts',
+};
 
 const fetchPosts = async (): Promise<IPost[]> => {
   const fetchAndCachePosts = async () => {
@@ -32,15 +39,6 @@ const PostsPage = async () => {
 
   return (
     <>
-      <Head>
-        <title>Posts - PostCraft</title>
-        <meta name="description" content="Browse the latest posts on PostCraft, your go-to platform for insightful articles and updates." />
-        <meta name="keywords" content="PostCraft, posts, articles, updates, blog" />
-        <meta name="author" content="PostCraft Team" />
-        <meta property="og:title" content="Posts - PostCraft" />
-        <meta property="og:description" content="Browse the latest posts on PostCraft, your go-to platform for insightful articles and updates." />
-        <meta property="og:type" content="website" />
-      </Head>
       <PostListing posts={posts} />
     </>
   );

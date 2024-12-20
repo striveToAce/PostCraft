@@ -2,14 +2,15 @@ import { notFound } from 'next/navigation';
 import Head from 'next/head';
 import { unstable_cache } from 'next/cache';
 import HeaderFooterLayout from '@/app/components/layout/HeaderFooterLayout';
+import type { Metadata } from 'next'
 import Link from 'next/link';
 
-interface IPost {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-}
+export const metadata: Metadata = {
+  title: 'Posts - PostCraft',
+  description: 'Post details',
+  keywords: 'PostCraft, blog, articles, updates, posts',
+};
+
 
 const fetchPost = async (id: string): Promise<IPost | null> => {
   const fetchAndCachePost = async () => {

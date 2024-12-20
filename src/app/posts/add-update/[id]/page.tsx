@@ -1,8 +1,14 @@
 import React from 'react';
 import Head from 'next/head';
 import { unstable_cache } from 'next/cache';
+import type { Metadata } from 'next'
 import PostFormPage from '@/app/components/posts/AddUpdate';
 
+export const metadata: Metadata = {
+  title: 'Update post - PostCraft',
+  description: 'Update your post',
+  keywords: 'PostCraft, add post, edit post, blog, articles',
+};
 const AddUpdatePostPage = async ({ params }: { params: { id: string } }) => {
   const postId = params?.id; // Access the postId from the params
   const fetchPost = async (id: string) => {
