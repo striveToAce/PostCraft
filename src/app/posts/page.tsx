@@ -15,7 +15,7 @@ const fetchPosts = async (): Promise<IPost[]> => {
     throw new Error('Failed to fetch posts');
   }
   const posts = await res.json();
-  await redis.set(cacheKey, JSON.stringify(posts), 'EX', 120); // Cache for 2 minutes
+  await redis.set(cacheKey, JSON.stringify(posts), 'EX', 30); // Cache for 2 minutes
   return posts;
 };
 
