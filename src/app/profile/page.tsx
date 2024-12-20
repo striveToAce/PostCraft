@@ -28,19 +28,21 @@ const ProfilePage: React.FC = () => {
         <h1 className="text-3xl font-bold text-center mb-4">Profile Information</h1>
         <div className="text-center">
           <p className="text-lg mb-4">Hello, <span className="font-semibold">{userName}</span>!</p>
+
+          <div className='flex justify-center mb-4'>
+          <button
+            onClick={() => router.push('/posts')}
+            className="w-full bg-sky-500 text-white font-semibold py-2 px-4 rounded-full shadow hover:bg-sky-600 transition-colors duration-300"
+          >
+            View Posts
+          </button>
+        </div>
+
           <button
             onClick={() => dispatch(logout())}
             className="bg-red-500 text-white font-semibold py-2 px-4 rounded-full shadow hover:bg-red-600 transition-colors duration-300"
           >
             Logout
-          </button>
-        </div>
-        <div className='flex justify-center'>
-          <button
-            onClick={() => router.push('/posts')}
-            className="bg-sky-500 text-white font-semibold py-2 px-4 rounded-full shadow hover:bg-sky-600 transition-colors duration-300"
-          >
-            View Posts
           </button>
         </div>
       </div>
