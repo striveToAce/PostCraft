@@ -24,9 +24,7 @@ const Header: React.FC<HeaderProps> = ({
     };
 
     useEffect(() => {
-        console.log(isAuthPage, isLoggedIn, userName)
         if (isAuthPage && !isLoggedIn && (typeof userName === "string")) {
-
             router.push('/login')
         }
     }, [isAuthPage, isLoggedIn, userName])
