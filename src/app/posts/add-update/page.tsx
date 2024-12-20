@@ -10,9 +10,7 @@ export const metadata: Metadata = {
 
 const AddUpdatePostPage: React.FC = () => {
   return (
-    <>
       <PostFormPage />
-    </>
   );
 };
 

@@ -38,9 +38,7 @@ const PostsPage = async () => {
   if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <>
       <PostListing posts={posts} />
-    </>
   );
 };
 
