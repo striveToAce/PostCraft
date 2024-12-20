@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
@@ -16,12 +16,20 @@ const Header: React.FC<HeaderProps> = ({
     const userName = useSelector((state: RootState) => state.user.name);
     const isLoggedIn = Boolean(userName);
 
-    if (isAuthPage && !isLoggedIn && (typeof userName === "string")) router.push('/login')
+
     const getInitials = (name: string) => {
         const names = name.split(' ');
         const initials = names.map((n) => n[0]).join('');
         return initials.toUpperCase();
     };
+
+    useEffect(() => {
+        console.log(isAuthPage, isLoggedIn, userName)
+        if (isAuthPage && !isLoggedIn && (typeof userName === "string")) {
+
+            router.push('/login')
+        }
+    }, [isAuthPage, isLoggedIn, userName])
 
     return (
         <header className="bg-gradient-to-r from-purple-500 to-indigo-600 p-4 shadow-md">

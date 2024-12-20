@@ -5,7 +5,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  name: null,
+  name: "",
 };
 
 const userSlice = createSlice({
@@ -16,7 +16,7 @@ const userSlice = createSlice({
       state.name = action.payload;
     },
     logout: (state) => {
-      state.name = null;
+      state.name = "";
     },
   },
 });
