@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Redis from 'ioredis';
 import PostListing from '../components/posts/PostListing';
+import HeaderFooterLayout from '../components/layout/HeaderFooterLayout';
 
 const fetchPosts = async (): Promise<IPost[]> => {
   const cacheKey = 'posts';
