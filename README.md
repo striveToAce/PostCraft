@@ -5,7 +5,7 @@ PostCraft is a Next.js application that displays a list of posts fetched from an
 ## Features
 
 - Fetches posts from the JSONPlaceholder API.
-- Caches posts in Redis for 2 minutes to enhance performance.
+- Caches posts in Redis for 30 sec to enhance performance.
 - Displays posts using a responsive UI with Tailwind CSS.
 - Includes a login form that uses Redux for state management.
 - Provides a profile page with user information and logout functionality.
